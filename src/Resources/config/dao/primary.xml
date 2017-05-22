@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="bike.api.dao.primary.user.class">Bike\Api\Db\Primary\UserDao</parameter>
+        <parameter key="bike.api.dao.primary.bike.class">Bike\Api\Db\Primary\BikeDao</parameter>
+        <parameter key="bike.api.dao.primary.elock.class">Bike\Api\Db\Primary\ElockDao</parameter>
+        <parameter key="bike.api.dao.primary.bike_sn_generator.class">Bike\Api\Db\Primary\BikeSnGeneratorDao</parameter>
+    </parameters>
+
+    <services>
+        <service id="bike.api.dao.primary.user" class="%bike.api.dao.primary.user.class%">
+            <argument type="service" id="bike.api.params.dao.primary.conn_id"/>
+            <argument>%bike.api.params.dao.primary.db_name%</argument>
+            <argument>%bike.api.params.dao.primary.prefix%</argument>
+            <argument>Bike\Api\Db\Primary\User</argument>
+        </service>
+
+        <service id="bike.api.dao.primary.bike" class="%bike.api.dao.primary.bike.class%">
+            <argument type="service" id="bike.api.params.dao.primary.conn_id"/>
+            <argument>%bike.api.params.dao.primary.db_name%</argument>
+            <argument>%bike.api.params.dao.primary.prefix%</argument>
+            <argument>Bike\Api\Db\Primary\Bike</argument>
+        </service>
+
+        <service id="bike.api.dao.primary.elock" class="%bike.api.dao.primary.elock.class%">
+            <argument type="service" id="bike.api.params.dao.primary.conn_id"/>
+            <argument>%bike.api.params.dao.primary.db_name%</argument>
+            <argument>%bike.api.params.dao.primary.prefix%</argument>
+            <argument>Bike\Api\Db\Primary\Elock</argument>
+        </service>
+
+        <service id="bike.api.dao.primary.bike_sn_generator" class="%bike.api.dao.primary.bike_sn_generator.class%">
+            <argument type="service" id="bike.api.params.dao.primary.conn_id"/>
+            <argument>%bike.api.params.dao.primary.db_name%</argument>
+            <argument>%bike.api.params.dao.primary.prefix%</argument>
+            <argument>Bike\Api\Db\Primary\BikeSnGenerator</argument>
+        </service>
+    </services>
+</container>

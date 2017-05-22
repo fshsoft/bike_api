@@ -7,7 +7,7 @@
         "psr-4": {
             "Bike\\Api\\": "src/"
         },
-        "classmap": [ "app/AppKernel.php", "app/AppCache.php" ],
+        "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
     "require": {
         "symfony/symfony": "^3.0",
@@ -22,9 +22,7 @@
 
         "doctrine/dbal": "^2.3",
 
-        "doctrine/doctrine-bundle": "^1.6",
-
-        "bike/common": "dev-master"
+        "doctrine/doctrine-bundle": "^1.6"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
@@ -51,10 +49,6 @@
         "packagist": {
             "type": "composer",
             "url": "https://packagist.phpcomposer.com"
-        },
-        "bike/common": {
-            "type": "vcs",
-            "url": "https://github.com/fshsoft/bike_common.git"
         }
     },
     "extra": {

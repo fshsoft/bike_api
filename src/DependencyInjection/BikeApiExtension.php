@@ -47,13 +47,12 @@ class BikeApiExtension extends Extension implements PrependExtensionInterface
         }
 
         foreach ($config['dao'] as $k => $v) {
-            $container->setAlias('zhsy.params.dao.' . $k . '.conn_id', $v['conn_id']);
-            $container->setParameter('zhsy.params.dao.' . $k. '.db_name', $v['db_name']);
-            $container->setParameter('zhsy.params.dao.' . $k. '.prefix', $v['prefix']);
+            $container->setAlias('bike.api.params.dao.' . $k . '.conn_id', $v['conn_id']);
+            $container->setParameter('bike.api.params.dao.' . $k. '.db_name', $v['db_name']);
+            $container->setParameter('bike.api.params.dao.' . $k. '.prefix', $v['prefix']);
         }
 
         $loader->load('dao/primary.xml');
-        $loader->load('dao/admin.xml');
     }
 
     public function getAlias()
