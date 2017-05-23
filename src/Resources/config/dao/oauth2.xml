@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="bike.api.dao.oauth2.access_token.class">Bike\Api\Db\OAuth2\AccessTokenDao</parameter>
+        <parameter key="bike.api.dao.oauth2.refresh_token.class">Bike\Api\Db\OAuth2\RefreshTokenDao</parameter>
+        <parameter key="bike.api.dao.oauth2.auth_code.class">Bike\Api\Db\OAuth2\AuthCodeDao</parameter>
+        <parameter key="bike.api.dao.oauth2.client.class">Bike\Api\Db\OAuth2\ClientDao</parameter>
+        <parameter key="bike.api.dao.oauth2.scope.class">Bike\Api\Db\OAuth2\ScopeDao</parameter>
+    </parameters>
+
+    <services>
+        <service id="bike.api.dao.oauth2.access_token" class="%bike.api.dao.oauth2.access_token.class%">
+            <argument type="service" id="bike.api.params.dao.oauth2.conn_id"/>
+            <argument>%bike.api.params.dao.oauth2.db_name%</argument>
+            <argument>%bike.api.params.dao.oauth2.prefix%</argument>
+            <argument>Bike\Api\Db\OAuth2\AccessToken</argument>
+        </service>
+
+        <service id="bike.api.dao.oauth2.refresh_token" class="%bike.api.dao.oauth2.refresh_token.class%">
+            <argument type="service" id="bike.api.params.dao.oauth2.conn_id"/>
+            <argument>%bike.api.params.dao.oauth2.db_name%</argument>
+            <argument>%bike.api.params.dao.oauth2.prefix%</argument>
+            <argument>Bike\Api\Db\OAuth2\RefreshToken</argument>
+        </service>
+
+        <service id="bike.api.dao.oauth2.auth_code" class="%bike.api.dao.oauth2.auth_code.class%">
+            <argument type="service" id="bike.api.params.dao.oauth2.conn_id"/>
+            <argument>%bike.api.params.dao.oauth2.db_name%</argument>
+            <argument>%bike.api.params.dao.oauth2.prefix%</argument>
+            <argument>Bike\Api\Db\OAuth2\AuthCode</argument>
+        </service>
+
+        <service id="bike.api.dao.oauth2.client" class="%bike.api.dao.oauth2.client.class%">
+            <argument type="service" id="bike.api.params.dao.oauth2.conn_id"/>
+            <argument>%bike.api.params.dao.oauth2.db_name%</argument>
+            <argument>%bike.api.params.dao.oauth2.prefix%</argument>
+            <argument>Bike\Api\Db\OAuth2\Client</argument>
+        </service>
+
+        <service id="bike.api.dao.oauth2.scope" class="%bike.api.dao.oauth2.scope.class%">
+            <argument type="service" id="bike.api.params.dao.oauth2.conn_id"/>
+            <argument>%bike.api.params.dao.oauth2.db_name%</argument>
+            <argument>%bike.api.params.dao.oauth2.prefix%</argument>
+            <argument>Bike\Api\Db\OAuth2\Scope</argument>
+        </service>
+    </services>
+</container>

@@ -30,6 +30,7 @@ class BikeApiExtension extends Extension implements PrependExtensionInterface
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $this->registerDaoConfiguration($config, $container, $loader);
+        $this->registerOAuth2Configuration($config, $container, $loader);
 
         // service
         $loader->load('service.xml');
@@ -53,6 +54,18 @@ class BikeApiExtension extends Extension implements PrependExtensionInterface
         }
 
         $loader->load('dao/primary.xml');
+        $loader->load('dao/oauth2.xml');
+    }
+
+    protected function registerOAuth2Configuration(array $config, ContainerBuilder $container, XmlFileLoader $loader)
+    {
+        if (!isset($config['oauth2'])) {
+            return;
+        }
+
+        $container->setParameter('bike.api.params.oauth2.public_key', $config['oauth2']['public_key']);
+        $container->setParameter('bike.api.params.oauth2.private_key', $config['oauth2']['private_key']);
+        $loader->load('oauth2.xml');
     }
 
     public function getAlias()

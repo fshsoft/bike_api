@@ -23,6 +23,12 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->arrayNode('oauth2')
+                    ->children()
+                        ->scalarNode('private_key')->end()
+                        ->scalarNode('public_key')->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;
