@@ -12,7 +12,7 @@ class AccessToken extends AbstractEntity
         'access_token' => null,
         'client_id' => null,
         'user_id' => 0,
-        'scopes' => 0,
+        'scopes' => '',
         'expire_time' => null,
         'create_time' => null,
     );

@@ -3,11 +3,30 @@
 namespace Bike\Api\OAuth2\Entity;
 
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
-use League\OAuth2\Server\Entities\Traits\EntityTrait;
 
 class ScopeEntity implements ScopeEntityInterface
 {
-    use EntityTrait;
+    /*
+     * @var string
+     */
+    protected $identifier;
+
+    /**
+     * @return mixed
+     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * @param mixed $identifier
+     */
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
+        return $this;
+    }
 
     public function jsonSerialize()
     {

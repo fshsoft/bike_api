@@ -52,6 +52,7 @@ class AuthCodeEntity implements AuthCodeEntityInterface
     public function setIdentifier($identifier)
     {
         $this->identifier = $identifier;
+        return $this;
     }
 
     /**
@@ -68,6 +69,7 @@ class AuthCodeEntity implements AuthCodeEntityInterface
     public function setRedirectUri($uri)
     {
         $this->redirectUri = $uri;
+        return $this;
     }
 
     /**
@@ -108,6 +110,7 @@ class AuthCodeEntity implements AuthCodeEntityInterface
     public function setExpiryDateTime(\DateTime $dateTime)
     {
         $this->expiryDateTime = $dateTime;
+        return $this;
     }
 
     /**
@@ -118,6 +121,7 @@ class AuthCodeEntity implements AuthCodeEntityInterface
     public function setUserIdentifier($identifier)
     {
         $this->userIdentifier = $identifier;
+        return $this;
     }
 
     /**
@@ -148,5 +152,6 @@ class AuthCodeEntity implements AuthCodeEntityInterface
     public function setClient(ClientEntityInterface $client)
     {
         $this->client = $client;
+        return $this;
     }
 }

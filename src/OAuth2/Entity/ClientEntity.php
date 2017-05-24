@@ -35,6 +35,7 @@ class ClientEntity implements ClientEntityInterface
     public function setIdentifier($identifier)
     {
         $this->identifier = $identifier;
+        return $this;
     }
 
     /**
@@ -51,6 +52,7 @@ class ClientEntity implements ClientEntityInterface
     public function setName($name)
     {
         $this->name = $name;
+        return $this;
     }
 
     /**
@@ -68,5 +70,6 @@ class ClientEntity implements ClientEntityInterface
     public function setRedirectUri($uri)
     {
         $this->redirectUri = $uri;
+        return $this;
     }
 }

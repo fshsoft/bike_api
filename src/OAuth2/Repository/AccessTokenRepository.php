@@ -6,11 +6,10 @@ use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 
-use Bike\Api\Service\AbstractService;
 use Bike\Api\OAuth2\Entity\AccessTokenEntity;
 use Bike\Api\Db\OAuth2\AccessToken;
 
-class AccessTokenRepository extends AbstractService implements AccessTokenRepositoryInterface
+class AccessTokenRepository extends AbstractRepository implements AccessTokenRepositoryInterface
 {
     public function getNewToken(ClientEntityInterface $clientEntity, array $scopes, $userIdentifier = null)
     {
@@ -20,32 +19,39 @@ class AccessTokenRepository extends AbstractService implements AccessTokenReposi
 
     public function persistNewAccessToken(AccessTokenEntityInterface $accessTokenEntity)
     {
-        $accessTokenDao = $this->getAccessTokenDao();
+        $time = time();
+        $accessTokenDao = $this->container->get('bike.api.dao.oauth2.access_token');
         $accessToken = new AccessToken();
         $accessToken
-            ->setAccessToken($accessTokenEntity->getIdentifier());
+            ->setAccessToken($accessTokenEntity->getIdentifier())
+            ->setClientId($accessTokenEntity->getClient()->getIdentifier())
+            ->setUserId($accessTokenEntity->getUserIdentifier())
+            ->setExpireTime($accessTokenEntity->getExpiryDateTime()->getTimestamp())
+            ->setCreateTime($time);
+        $scopeEntityList = $accessTokenEntity->getScopes();
+        $scopes = array();
+        if ($scopeEntityList as $v) {
+            $scopes[] = $v->getIdentifier();
+        }
+        $accessToken->setScopes(implode(' ', $scopes));
+        $accessTokenDao->create($accessToken);
     }
 
     public function revokeAccessToken($tokenId)
     {
-        $accessTokenDao = $this->getAccessTokenDao();
-        $accessTokenDao->delete($tokenId);
+        $oauth2Service = $this->container->get('bike.api.service.oauth2');
+        $oauth2Service->deleteAccessToken($tokenId);
         return $tokenId;
     }
 
     public function isAccessTokenRevoked($tokenId)
     {
-        $accessTokenDao = $this->getAccessTokenDao();
-        $accessToken = $accessTokenDao->find($tokenId);
+        $oauth2Service = $this->container->get('bike.api.service.oauth2');
+        $accessToken = $oauth2Service->getAccessToken($tokenId);
         if ($accessToken) {
             return false;
         }
         return true;
-    }
-
-    protected function getAccessTokenDao()
-    {
-        return $this->container->get('bike.api.dao.oauth2.access_token');
     }
 }
 

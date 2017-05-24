@@ -5,9 +5,9 @@ namespace Bike\Api\OAuth2\Repository;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 
-use Bike\Api\Service\AbstractService;
+use Bike\Api\OAuth2\Entity\UserEntity;
 
-class UserRepository extends AbstractService implements UserRepositoryInterface
+class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
     public function getUserEntityByUserCredentials(
         $username,
@@ -16,7 +16,13 @@ class UserRepository extends AbstractService implements UserRepositoryInterface
         ClientEntityInterface $clientEntity
     )
     {
-
+        $userService = $this->container->get('bike.api.service.user');
+        $user = $userService->getUserByMobile($username);
+        if ($user && $userService->verifyPassword($password, $user->getPwd())) {
+            $userEntity = new UserEntity();
+            $userEntity->setIdentity($user->getId());
+            return $userEntity;
+        }
     }
 }
 

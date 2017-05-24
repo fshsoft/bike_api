@@ -11,8 +11,8 @@ class AuthCode extends AbstractEntity
     protected static $cols = array(
         'auth_code' => null,
         'client_id' => null,
-        'user_id' => null,
-        'scopes' => null,
+        'user_id' => 0,
+        'scopes' => '',
         'redirect_uri' => null,
         'expire_time' => null,
         'create_time' => null,

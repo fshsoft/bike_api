@@ -51,6 +51,7 @@ class AccessTokenEntity implements AccessTokenEntityInterface
     public function setIdentifier($identifier)
     {
         $this->identifier = $identifier;
+        return $this;
     }
 
     /**
@@ -91,6 +92,7 @@ class AccessTokenEntity implements AccessTokenEntityInterface
     public function setExpiryDateTime(\DateTime $dateTime)
     {
         $this->expiryDateTime = $dateTime;
+        return $this;
     }
 
     /**
@@ -101,6 +103,7 @@ class AccessTokenEntity implements AccessTokenEntityInterface
     public function setUserIdentifier($identifier)
     {
         $this->userIdentifier = $identifier;
+        return $this;
     }
 
     /**
@@ -131,6 +134,7 @@ class AccessTokenEntity implements AccessTokenEntityInterface
     public function setClient(ClientEntityInterface $client)
     {
         $this->client = $client;
+        return $this;
     }
 
     public function convertToJWT(CryptKey $privateKey)

@@ -6,8 +6,21 @@ use League\OAuth2\Server\Entities\UserEntityInterface;
 
 class UserEntity implements UserEntityInterface
 {
+    protected $identifier;
+
+    /**
+     * Return the user's identifier.
+     *
+     * @return mixed
+     */
     public function getIdentifier()
     {
-        return 1;
+        return $this->identifier;
+    }
+
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
+        return $this;
     }
 }
