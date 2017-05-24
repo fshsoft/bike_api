@@ -19,7 +19,6 @@ class AccessTokenRepository extends AbstractRepository implements AccessTokenRep
 
     public function persistNewAccessToken(AccessTokenEntityInterface $accessTokenEntity)
     {
-        return;
         $time = time();
         $accessTokenDao = $this->container->get('bike.api.dao.oauth2.access_token');
         $accessToken = new AccessToken();
