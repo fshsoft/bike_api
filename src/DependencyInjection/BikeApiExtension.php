@@ -63,8 +63,9 @@ class BikeApiExtension extends Extension implements PrependExtensionInterface
             return;
         }
 
-        $container->setParameter('bike.api.params.oauth2.public_key', $config['oauth2']['public_key']);
-        $container->setParameter('bike.api.params.oauth2.private_key', $config['oauth2']['private_key']);
+        foreach ($config['oauth2'] as $k => $v) {
+            $container->setParameter('bike.api.params.oauth2.' . $k, $v);
+        }
         $loader->load('oauth2.xml');
     }
 

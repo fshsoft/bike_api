@@ -3,6 +3,7 @@
 namespace Bike\Api\OAuth2\Repository;
 
 use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
+use League\OAuth2\Server\Entities\ClientEntityInterface;
 
 use Bike\Api\OAuth2\Entity\ScopeEntity;
 

@@ -19,6 +19,7 @@ class AccessTokenRepository extends AbstractRepository implements AccessTokenRep
 
     public function persistNewAccessToken(AccessTokenEntityInterface $accessTokenEntity)
     {
+        return;
         $time = time();
         $accessTokenDao = $this->container->get('bike.api.dao.oauth2.access_token');
         $accessToken = new AccessToken();
@@ -30,7 +31,7 @@ class AccessTokenRepository extends AbstractRepository implements AccessTokenRep
             ->setCreateTime($time);
         $scopeEntityList = $accessTokenEntity->getScopes();
         $scopes = array();
-        if ($scopeEntityList as $v) {
+        foreach ($scopeEntityList as $v) {
             $scopes[] = $v->getIdentifier();
         }
         $accessToken->setScopes(implode(' ', $scopes));

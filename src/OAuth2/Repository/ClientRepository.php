@@ -27,7 +27,7 @@ class ClientRepository extends AbstractRepository implements ClientRepositoryInt
         $clientEntity
             ->setIdentifier($client->getId())
             ->setName($client->getName())
-            ->setRequestUri($client->getRedirectUri());
+            ->setRedirectUri($client->getRedirectUri());
         return $clientEntity;
     }
 }

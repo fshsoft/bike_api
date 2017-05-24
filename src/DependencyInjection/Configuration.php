@@ -27,6 +27,9 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('private_key')->end()
                         ->scalarNode('public_key')->end()
+                        ->scalarNode('access_token_ttl')->end()
+                        ->scalarNode('refresh_token_ttl')->end()
+                        ->scalarNode('auth_code_ttl')->end()
                     ->end()
                 ->end()
             ->end();

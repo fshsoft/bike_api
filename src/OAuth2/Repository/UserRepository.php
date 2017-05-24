@@ -20,7 +20,7 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
         $user = $userService->getUserByMobile($username);
         if ($user && $userService->verifyPassword($password, $user->getPwd())) {
             $userEntity = new UserEntity();
-            $userEntity->setIdentity($user->getId());
+            $userEntity->setIdentifier($user->getId());
             return $userEntity;
         }
     }
