@@ -1,6 +1,9 @@
-/app/dev
-/app/prod
-/app/test
+/app/dev/*
+!/app/dev/README.md
+/app/prod/*
+!/app/prod/README.md
+/app/test/*
+!/app/test/README.md
 
 /vendor/
 
