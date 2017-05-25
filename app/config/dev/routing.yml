@@ -1,3 +1,0 @@
-bike_api:
-    resource: "@BikeApiBundle/Controller/"
-    type: "annotation"
