@@ -14,8 +14,35 @@ class Manager
 
     public function createAuthorizationServer(array $data)
     {
-        $data = ArgUtil::getArgs($data, array(
+        $grantType = ArgUtil::getArg($data, 'grant_type');
+        switch ($grantType) {
+            case 'password':
+                return $this->createPasswordGrantAuthorizationServer($data);
+            case 'client_credentials':
+                return $this->createClientCredentialsGrantAuthorizationServer($data);
+            case 'refresh_token':
+                return $this->createRefreshTokenGrantAuthorizationServer($data);
+        }
+    }
 
+    protected function createPasswordGrantAuthorizationServer(array $data)
+    {
+        $data = ArgUtil::getArgs($data, array(
+            'client_id',
+            'client_secret',
+            'scope',
+            'username',
+            'password',
         ));
+    }
+
+    protected function createClientCredentialsGrantAuthorizationServer(array $data)
+    {
+
+    }
+
+    protected function createRefreshTokenGrantAuthorizationServer(array $data)
+    {
+
     }
 }

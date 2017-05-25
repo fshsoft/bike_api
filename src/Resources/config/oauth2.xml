@@ -11,9 +11,6 @@
         <parameter key="bike.api.oauth2.repository.refresh_token.class">Bike\Api\OAuth2\Repository\RefreshTokenRepository</parameter>
         <parameter key="bike.api.oauth2.repository.auth_code.class">Bike\Api\OAuth2\Repository\AuthCodeRepository</parameter>
         <parameter key="bike.api.oauth2.repository.scope.class">Bike\Api\OAuth2\Repository\ScopeRepository</parameter>
-
-        <parameter key="bike.api.oauth2.grant.password.class">\League\OAuth2\Server\Grant\PasswordGrant</parameter>
-        <parameter key="bike.api.oauth2.grant.client_credentials.class">\League\OAuth2\Server\Grant\ClientCredentialsGrant</parameter>
     </parameters>
 
     <services>
