@@ -2,6 +2,7 @@
 // Routes
 $app->get('/', 'Bike\\Api\\Controller\\IndexController:indexAction');
 
-$app->get('/oauth2/authorize', 'Bike\\Api\\Controller\\OAuth2\\IndexController:authorizeAction');
-$app->get('/oauth2/access_token', 'Bike\\Api\\Controller\\OAuth2\\IndexController:accessTokenAction');
-
+$app->group('/oauth2', function () {
+    $this->get('/authorize', 'Bike\\Api\\Controller\\OAuth2\\IndexController:authorizeAction');
+    $this->get('/access_token', 'Bike\\Api\\Controller\\OAuth2\\IndexController:accessTokenAction');
+});

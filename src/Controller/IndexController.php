@@ -11,5 +11,9 @@ class IndexController extends AbstractController
     {
         $userService = $this->container->get('bike.api.service.user');
         echo get_class($userService);
+        $oauth2Service = $this->container->get('bike.api.service.oauth2');
+        echo get_class($oauth2Service);
+        $redisConn = $this->container->get('bike.api.redis.conn.default');
+        echo get_class($redisConn);
     }
 }
