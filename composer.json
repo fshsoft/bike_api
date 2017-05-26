@@ -16,7 +16,8 @@
     "autoload": {
         "psr-4": {
             "Bike\\Api\\": "src/"
-        }
+        },
+        "files": ["lib/aliyun-php-sdk-core/Config.php"]
     },
     "autoload-dev": {
         "psr-4": {
