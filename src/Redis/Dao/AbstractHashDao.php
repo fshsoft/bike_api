@@ -21,7 +21,7 @@ abstract class AbstractHashDao extends AbstractDao
         $key = $this->getKey($key);
         if ($field === null) {
             $value = $this->conn->hGetAll($key);
-            if (!$value) {
+            if ($value) {
                 return $this->normalize($value);
             }
         } else {
