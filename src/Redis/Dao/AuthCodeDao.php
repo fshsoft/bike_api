@@ -2,7 +2,7 @@
 
 namespace Bike\Api\Redis\Dao;
 
-class AuthCodeDao extends AbstractDao
+class AuthCodeDao extends AbstractHashDao
 {
     protected $fields = [
         'auth_code' => null,

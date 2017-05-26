@@ -46,16 +46,6 @@ $container['bike.api.dao.primary.bike'] = function ($c) {
 };
 
 // dao oauth2
-$container['bike.api.dao.oauth2.access_token'] = function ($c) {
-    $settings = $c->get('settings')['dao']['oauth2'];
-    return new Bike\Api\Db\OAuth2\AccessTokenDao(
-        $c->get($settings['conn_id']),
-        $settings['db_name'],
-        $settings['prefix'],
-        'Bike\Api\Db\OAuth2\AccessToken'
-    );
-};
-
 $container['bike.api.dao.oauth2.client'] = function ($c) {
     $settings = $c->get('settings')['dao']['oauth2'];
     return new Bike\Api\Db\OAuth2\ClientDao(
@@ -66,33 +56,13 @@ $container['bike.api.dao.oauth2.client'] = function ($c) {
     );
 };
 
-$container['bike.api.dao.oauth2.refresh_token'] = function ($c) {
-    $settings = $c->get('settings')['dao']['oauth2'];
-    return new Bike\Api\Db\OAuth2\RefreshTokenDao(
-        $c->get($settings['conn_id']),
-        $settings['db_name'],
-        $settings['prefix'],
-        'Bike\Api\Db\OAuth2\RefreshToken'
-    );
-};
-
-$container['bike.api.dao.oauth2.auth_code'] = function ($c) {
-    $settings = $c->get('settings')['dao']['oauth2'];
-    return new Bike\Api\Db\OAuth2\AuthCodeDao(
-        $c->get($settings['conn_id']),
-        $settings['db_name'],
-        $settings['prefix'],
-        'Bike\Api\Db\OAuth2\AuthCode'
-    );
-};
-
 $container['bike.api.dao.oauth2.scope'] = function ($c) {
     $settings = $c->get('settings')['dao']['oauth2'];
     return new Bike\Api\Db\OAuth2\ScopeDao(
         $c->get($settings['conn_id']),
         $settings['db_name'],
         $settings['prefix'],
-        'Bike\Api\Db\OAuth2\ScopeCode'
+        'Bike\Api\Db\OAuth2\Scope'
     );
 };
 
@@ -105,7 +75,7 @@ $container['bike.api.service.oauth2'] = function ($c) {
     return new Bike\Api\Service\OAuth2Service($c);
 };
 
-// redis
+// redis conn
 $container['bike.api.redis.conn.default'] = function ($c) {
     $settings = $c->get('settings')['redis']['conn']['default'];
     return new Bike\Api\Redis\Connection(
@@ -116,6 +86,7 @@ $container['bike.api.redis.conn.default'] = function ($c) {
     );
 };
 
+// redis dao
 $container['bike.api.redis.dao.access_token'] = function ($c) {
     $accessTokenDao = new Bike\Api\Redis\Dao\AccessTokenDao();
     $accessTokenDao->setConn($c->get('bike.api.redis.conn.default'));

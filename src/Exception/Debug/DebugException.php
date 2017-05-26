@@ -1,8 +1,8 @@
 <?php
 
-namespace Bike\Debug\Exception\Debug;
+namespace Bike\Api\Exception\Debug;
 
-use Bike\Debug\Error\ErrorCode;
+use Bike\Api\Error\ErrorCode;
 
 class DebugException extends \Exception implements DebugExceptionInterface
 {

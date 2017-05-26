@@ -2,7 +2,7 @@
 
 namespace Bike\Api\Redis\Dao;
 
-abstract class AbstractHashDao extends AbstractHashDao
+abstract class AbstractHashDao extends AbstractDao
 {
     protected $fields = array();
 
@@ -32,7 +32,7 @@ abstract class AbstractHashDao extends AbstractHashDao
     {
         $value = $this->filter($value);
         $this->conn->hMSet($key, $value);
-        if ($expireAt) {
+        if ($timestamp) {
             if ($isTtl) {
                 $this->conn->expire($key, $timestamp);
             } else {

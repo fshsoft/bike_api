@@ -19,12 +19,17 @@ class AuthCodeRepository extends AbstractRepository implements AuthCodeRepositor
 
     public function revokeAuthCode($codeId)
     {
-
+        $authCodeDao = $this->container->get('bike.api.redis.dao.auth_code');
+        return $authCodeDao->delete($codeId);
     }
 
     public function isAuthCodeRevoked($codeId)
     {
-
+        $authCodeDao = $this->container->get('bike.api.redis.dao.auth_code');
+        if ($authCodeDao->has($codeId)) {
+            return false;
+        }
+        return true;
     }
 }
 
