@@ -2,9 +2,10 @@
 
 namespace Bike\Api\Redis\Dao;
 
-class AccessTokenDao extends AbstractDao
+class RefreshTokenDao extends AbstractDao
 {
     protected $fields = [
+        'refresh_token' => null,
         'access_token' => null,
         'client_id' => null,
         'user_id' => null,

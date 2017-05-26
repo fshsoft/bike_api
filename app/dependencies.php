@@ -121,3 +121,15 @@ $container['bike.api.redis.dao.access_token'] = function ($c) {
     $accessTokenDao->setConn($c->get('bike.api.redis.conn.default'));
     return $accessTokenDao;
 };
+
+$container['bike.api.redis.dao.refresh_token'] = function ($c) {
+    $refreshTokenDao = new Bike\Api\Redis\Dao\RefreshTokenDao();
+    $refreshTokenDao->setConn($c->get('bike.api.redis.conn.default'));
+    return $refreshTokenDao;
+};
+
+$container['bike.api.redis.dao.auth_code'] = function ($c) {
+    $authCodeDao = new Bike\Api\Redis\Dao\AuthCodeDao();
+    $authCodeDao->setConn($c->get('bike.api.redis.conn.default'));
+    return $authCodeDao;
+};
