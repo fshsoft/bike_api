@@ -11,6 +11,6 @@ class IndexController extends AbstractController
 {
     public function testAction(Request $request, Response $response)
     {
-        echo 111;
+        echo $request->getAttribute('oauth_user_id');
     }
 }
