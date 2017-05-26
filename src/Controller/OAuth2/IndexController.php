@@ -55,23 +55,4 @@ class IndexController extends AbstractController
     {
         echo 'authorize';
     }
-
-    public function testAction(Request $request, Response $response)
-    {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://api.bike.lc/oauth2/access_token");
-        curl_setopt($ch, CURLOPT_POST, 1);
-        $data = array(
-            'grant_type' => 'password',
-            'client_id' => 'ios',
-            'client_secret' => '789789',
-            'scope' => 'all',
-            'username' => 13862026360,
-            'password' => '789789',
-        );
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1); 
-        echo '<pre>' . print_r(curl_exec($ch), true) . '</pre>';
-        curl_close($ch);
-    }
 }
