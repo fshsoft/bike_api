@@ -18,6 +18,7 @@ abstract class AbstractHashDao extends AbstractDao
 
     public function find($key, $field = null)
     {
+        $key = $this->getKey($key);
         if ($field === null) {
             $value = $this->conn->hGetAll($key);
             if (!$value) {
@@ -30,6 +31,7 @@ abstract class AbstractHashDao extends AbstractDao
 
     public function save($key, array $value, $timestamp = 0, $isTtl = false)
     {
+        $key = $this->getKey($key);
         $value = $this->filter($value);
         $this->conn->hMSet($key, $value);
         if ($timestamp) {

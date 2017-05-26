@@ -10,4 +10,9 @@ class RefreshTokenDao extends AbstractHashDao
         'expire_time' => null,
         'create_time' => null,
     ];
+
+    protected function getKey($sharding = null)
+    {
+        return 'refresh_token_' . $sharding;
+    }
 }
