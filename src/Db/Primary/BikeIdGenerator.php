@@ -4,7 +4,7 @@ namespace Bike\Api\Db\Primary;
 
 use Bike\Api\Db\AbstractEntity;
 
-class BikeSnGenerator extends AbstractEntity
+class BikeIdGenerator extends AbstractEntity
 {
     protected static $pk = 'id';
 

@@ -7,11 +7,11 @@ use Doctrine\DBAL\Query\QueryBuilder;
 
 use Bike\Api\Db\AbstractDao;
 
-class BikeSnGeneratorDao extends AbstractDao
+class BikeIdGeneratorDao extends AbstractDao
 {
     protected function parseTable($cond, $dbOp)
     {
-        return "`{$this->db}`.`{$this->prefix}bike_sn_generator`";
+        return "`{$this->db}`.`{$this->prefix}bike_id_generator`";
     }
 
     protected function applyWhere(QueryBuilder $qb, array $where, $dbOp)

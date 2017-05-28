@@ -10,10 +10,9 @@ class Bike extends AbstractEntity
 
     protected static $cols = array(
         'id' => null,
-        'sn' => null,
-        'elock_sn' => '',
-        'client_id' => 0,
-        'agent_id' => 0,
+        'elock_id' => 0,
+        'lat' => '',
+        'lng' => '',
         'create_time' => null,
     );
 }
