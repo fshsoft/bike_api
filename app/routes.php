@@ -11,12 +11,7 @@ $app->group('/v1', function () {
     $this->get('/user/test', 'Bike\\Api\\Controller\\User\\IndexController:testAction');
 })->add(function ($request, $response, $next) {
     try {
-        $accessTokenRepository = new \Bike\Api\OAuth2\Repository\AccessTokenRepository($this);
-        $publicKeyPath = $this->get('settings')['oauth2']['public_key'];
-        $server = new \League\OAuth2\Server\ResourceServer(
-            $accessTokenRepository,
-            $publicKeyPath
-        );
+        $server = $this->get('bike.api.service.oauth2')->createResourceServer();
         $request = $server->validateAuthenticatedRequest($request);
         return $next($request, $response);
     } catch (\Exception $e) {

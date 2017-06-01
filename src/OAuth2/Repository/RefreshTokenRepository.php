@@ -40,7 +40,7 @@ class RefreshTokenRepository extends AbstractRepository implements RefreshTokenR
     public function isRefreshTokenRevoked($tokenId)
     {
         $refreshTokenDao = $this->container->get('bike.api.redis.dao.refresh_token');
-        if ($refreshTokenDao->hash($tokenId)) {
+        if ($refreshTokenDao->has($tokenId)) {
             return false;
         }
         return true;

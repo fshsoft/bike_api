@@ -11,6 +11,9 @@ class IndexController extends AbstractController
 {
     public function testAction(Request $request, Response $response)
     {
-        echo $request->getAttribute('oauth_user_id');
+        var_dump($request->getAttribute('oauth_access_token_id'));
+        var_dump($request->getAttribute('oauth_client_id'));
+        var_dump($request->getAttribute('oauth_user_id'));
+        var_dump($request->getAttribute('oauth_scopes'));
     }
 }
