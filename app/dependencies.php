@@ -45,6 +45,16 @@ $container['bike.api.dao.primary.bike'] = function ($c) {
     );
 };
 
+$container['bike.api.dao.primary.sms_code'] = function ($c) {
+    $settings = $c->get('settings')['dao']['primary'];
+    return new Bike\Api\Db\Primary\SmsCodeDao(
+        $c->get($settings['conn_id']),
+        $settings['db_name'],
+        $settings['prefix'],
+        'Bike\Api\Db\Primary\SmsCode'
+    );
+};
+
 // dao oauth2
 $container['bike.api.dao.oauth2.client'] = function ($c) {
     $settings = $c->get('settings')['dao']['oauth2'];
@@ -73,6 +83,20 @@ $container['bike.api.service.user'] = function ($c) {
 
 $container['bike.api.service.oauth2'] = function ($c) {
     return new Bike\Api\Service\OAuth2Service($c);
+};
+
+$container['bike.api.service.sms'] = function ($c) {
+    return new Bike\Api\Service\SmsService($c);
+};
+
+$container['bike.api.service.aliyun'] = function ($c) {
+    $aliyun = new Bike\Api\Service\AliyunService($c);
+    $settings = $c->get('settings')['aliyun'];
+    $aliyun
+        ->setAccessKeyId($settings['access_key_id'])
+        ->setAccessKeySecret($settings['access_key_secret'])
+        ->setRegions($settings['regions']);
+    return $aliyun;
 };
 
 // redis conn

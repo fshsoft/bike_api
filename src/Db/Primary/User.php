@@ -11,10 +11,10 @@ class User extends AbstractEntity
     protected static $cols = array(
         'id' => null,
         'mobile' => null,
-        'pwd' => null,
-        'name' => null,
-        'last_login_ip' => null,
-        'last_login_time' => null,
+        'pwd' => '',
+        'name' => '',
+        'last_login_ip' => '',
+        'last_login_time' => 0,
         'create_time' => null,
     );
 }

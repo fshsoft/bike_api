@@ -9,6 +9,20 @@ use Bike\Api\Db\Primary\User;
 
 class UserService extends AbstractService
 {
+    public function createUser(array $data)
+    {
+        $data = ArgUtil::getArgs($data, array(
+            'mobile',
+        ));
+        $this->validateMobile($data['mobile']);
+        $userDao = $this->getUserDao();
+        $user = new User();
+        $user
+            ->setMobile($data['mobile'])
+            ->setCreateTime(time());
+        return $userDao->create($user, true);
+    }
+
     public function getUserByMobile($mobile)
     {
         $key = 'user.mobile.' . $mobile;
@@ -60,6 +74,11 @@ class UserService extends AbstractService
         $idKey = 'user.' . $user->getId();
         $this->setRequestCache($mobikeKey, $user);
         $this->setRequestCache($idKey, $user);
+    }
+
+    protected function validateMobile($mobile)
+    {
+
     }
 
     protected function getUserDao()
