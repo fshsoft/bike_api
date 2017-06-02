@@ -2,6 +2,8 @@
 
 namespace Bike\Api\Service;
 
+use Sms\Request\V20160927 as Sms;
+
 use Bike\Api\Exception\Logic\LogicException;
 use Bike\Api\Db\Primary\SmsCode;
 
@@ -47,7 +49,7 @@ class SmsService extends AbstractService
             ->setMobile($mobile)
             ->setType(SmsCode::TYPE_LOGIN)
             ->setStatus(SmsCode::STATUS_NOT_USED)
-            ->setExpirationTime($time + $config['ttl'])
+            ->setExpireTime($time + $config['ttl'])
             ->setCreateTime($time);
         try {
             $smsCodeDao->create($smsCode);
@@ -56,7 +58,7 @@ class SmsService extends AbstractService
             return $code;
         } catch (\Exception  $e) {
             $smsCodeConn->rollBack();
-            throw new LogicException('手机验证码发送失败');
+            throw $e;
         }
     }
 

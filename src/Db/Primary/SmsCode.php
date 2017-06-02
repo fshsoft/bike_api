@@ -23,4 +23,4 @@ class SmsCode extends AbstractEntity
         'expire_time' => null,
         'create_time' => null,
     );
- 
+} 

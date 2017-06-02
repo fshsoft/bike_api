@@ -16,7 +16,6 @@ $app->group('/v1', function () {
     try {
         $server = $this->get('bike.api.service.oauth2')->createResourceServer();
         $request = $server->validateAuthenticatedRequest($request);
-        return $next($request, $response);
     } catch (\Exception $e) {
         $exception = new \Bike\Api\Exception\Logic\InvalidAccessTokenException();
         return $response->withJson(array(
@@ -24,4 +23,5 @@ $app->group('/v1', function () {
             'errmsg' => $exception->getMessage(),
         ));
     }
+    return $next($request, $response);
 });

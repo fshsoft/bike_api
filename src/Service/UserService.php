@@ -15,6 +15,10 @@ class UserService extends AbstractService
             'mobile',
         ));
         $this->validateMobile($data['mobile']);
+        $user = $this->getUserByMobile($data['mobile']);
+        if ($user) {
+            throw new LogicException('手机号码已存在');
+        }
         $userDao = $this->getUserDao();
         $user = new User();
         $user
@@ -78,7 +82,11 @@ class UserService extends AbstractService
 
     protected function validateMobile($mobile)
     {
-
+        if (!$mobile) {
+            throw new LogicException('手机号码不能为空');
+        } elseif (!is_numeric($mobile) || strlen($mobile) != 11 || $mobile != intval($mobile)) {
+            throw new LogicException('手机号码不合法');
+        }
     }
 
     protected function getUserDao()

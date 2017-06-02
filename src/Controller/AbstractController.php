@@ -2,7 +2,11 @@
 
 namespace Bike\Api\Controller;
 
+use Psr\Http\Message\ResponseInterface as Response;
 use Interop\Container\ContainerInterface;
+
+use Bike\Api\Error\ErrorCode;
+use Bike\Api\Exception\Logic\LogicExceptionInterface;
 
 abstract class AbstractController
 {
@@ -11,5 +15,42 @@ abstract class AbstractController
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    protected function jsonSuccess(Response $response, $data = null)
+    {
+        $result = array(
+            'errno' => ErrorCode::SUCCESS,
+            'errmsg' => '',
+        );
+        if ($data !== null) {
+            $result['data'] = $data;
+        }
+        return $response->withJson($result);
+    }
+
+    protected function jsonError(Response $response, $errno, $defaultErrmsg = null, $data = null)
+    {
+        if ($errno instanceof LogicExceptionInterface) {
+            $result = array(
+                'errno' => $errno->getCode(),
+                'errmsg' => $errno->getMessage(),
+            );
+        } else {
+            $errmsg = '出错了';
+            if ($defaultErrmsg) {
+                $errmsg = $defaultErrmsg;
+            }
+            $result = array(
+                'errno' => ErrorCode::LOGIC_ERROR,
+                'errmsg' => $errmsg,
+            );
+        }
+
+        if ($data !== null) {
+            $result['data'] = $data;
+        }
+
+        return $response->withJson($result);
     }
 }
