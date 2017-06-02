@@ -11,7 +11,7 @@ $app->group('/v1', function () {
     $this->get('/user/test', 'Bike\Api\Controller\User\IndexController:testAction');
 
     // sms
-    $this->get('/sms/get_login_code', 'Bike\Api\Controller\Sms\IndexController:getLoginCodeAction');
+    $this->get('/sms/send_login_code', 'Bike\Api\Controller\Sms\IndexController:sendLoginCodeAction');
 })->add(function ($request, $response, $next) {
     try {
         $server = $this->get('bike.api.service.oauth2')->createResourceServer();

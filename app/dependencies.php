@@ -45,16 +45,6 @@ $container['bike.api.dao.primary.bike'] = function ($c) {
     );
 };
 
-$container['bike.api.dao.primary.sms_code'] = function ($c) {
-    $settings = $c->get('settings')['dao']['primary'];
-    return new Bike\Api\Db\Primary\SmsCodeDao(
-        $c->get($settings['conn_id']),
-        $settings['db_name'],
-        $settings['prefix'],
-        'Bike\Api\Db\Primary\SmsCode'
-    );
-};
-
 // dao oauth2
 $container['bike.api.dao.oauth2.client'] = function ($c) {
     $settings = $c->get('settings')['dao']['oauth2'];
@@ -117,4 +107,10 @@ $container['bike.api.redis.dao.auth_code'] = function ($c) {
     $authCodeDao = new Bike\Api\Redis\Dao\AuthCodeDao();
     $authCodeDao->setConn($c->get('bike.api.redis.conn.default'));
     return $authCodeDao;
+};
+
+$container['bike.api.redis.dao.sms_code'] = function ($c) {
+    $smsCodeDao = new Bike\Api\Redis\Dao\SmsCodeDao();
+    $smsCodeDao->setConn($c->get('bike.api.redis.conn.default'));
+    return $smsCodeDao;
 };

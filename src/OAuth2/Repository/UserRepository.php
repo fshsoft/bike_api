@@ -9,6 +9,9 @@ use Bike\Api\OAuth2\Entity\UserEntity;
 
 class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
+    /**
+     * password是sms code
+     */
     public function getUserEntityByUserCredentials(
         $username,
         $password,
