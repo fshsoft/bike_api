@@ -89,16 +89,6 @@ $container['bike.api.service.sms'] = function ($c) {
     return new Bike\Api\Service\SmsService($c);
 };
 
-$container['bike.api.service.aliyun'] = function ($c) {
-    $aliyun = new Bike\Api\Service\AliyunService($c);
-    $settings = $c->get('settings')['aliyun'];
-    $aliyun
-        ->setAccessKeyId($settings['access_key_id'])
-        ->setAccessKeySecret($settings['access_key_secret'])
-        ->setRegions($settings['regions']);
-    return $aliyun;
-};
-
 // redis conn
 $container['bike.api.redis.conn.default'] = function ($c) {
     $settings = $c->get('settings')['redis']['conn']['default'];

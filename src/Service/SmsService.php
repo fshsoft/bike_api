@@ -2,7 +2,15 @@
 
 namespace Bike\Api\Service;
 
-use Sms\Request\V20160927 as Sms;
+use AliyunMNS\Client;
+use AliyunMNS\Topic;
+use AliyunMNS\Constants;
+use AliyunMNS\Model\MailAttributes;
+use AliyunMNS\Model\SmsAttributes;
+use AliyunMNS\Model\BatchSmsAttributes;
+use AliyunMNS\Model\MessageAttributes;
+use AliyunMNS\Exception\MnsException;
+use AliyunMNS\Requests\PublishMessageRequest;
 
 use Bike\Api\Exception\Logic\LogicException;
 use Bike\Api\Db\Primary\SmsCode;
@@ -22,23 +30,15 @@ class SmsService extends AbstractService
             ));
         }
 
-        $config = $this->container->get('settings')['aliyun']['sms']['login'];
-        $aliyunService = $this->container->get('bike.api.service.aliyun');   
-        $client = $aliyunService->getClient($config['region']);
-        $request = new Sms\SingleSendSmsRequest();
-        $request->setSignName($config['sign']);
-        $request->setTemplateCode($config['template']);
-        $request->setRecNum(strval($mobile));
+        $settings = $this->container->get('settings')['aliyun'];
+        $accessKeyId = $settings['access_key_id'];
+        $accessKeySecret = $settings['access_key_secret'];
 
-        /*模板变量，数字一定要转换为字符串*/
-        $code = $this->genCode();
-        $params = array(
-            'code' => $code,
-            'product' => $this->container->get('settings')['site_name'],
-        );
-        $request->setParamString(json_encode($params));
+        $config = $this->container->get('settings')['aliyun']['sms']['login'];
 
         $time = time();
+        $code = $this->genCode();
+
         $smsCodeDao = $this->container->get('bike.api.dao.primary.sms_code');
         $smsCodeConn = $smsCodeDao->getConn();
         $smsCodeConn->beginTransaction();
@@ -53,7 +53,20 @@ class SmsService extends AbstractService
             ->setCreateTime($time);
         try {
             $smsCodeDao->create($smsCode);
-            $response = $client->getAcsResponse($request);
+
+            // 发送短信
+            $client = new Client($config['endpoint'], $accessKeyId, $accessKeySecret);
+            $topic = $client->getTopicRef($config['topic']);
+            $batchSmsAttributes = new BatchSmsAttributes($config['sign'], $config['template']);
+            $batchSmsAttributes->addReceiver($mobile, array(
+                'code' => $code,
+                'product' => $this->container->get('settings')['site_name'],
+            ));
+            $messageAttributes = new MessageAttributes(array($batchSmsAttributes));
+            $messageBody = "smsmessage";
+            $request = new PublishMessageRequest($messageBody, $messageAttributes);
+            $res = $topic->publishMessage($request);
+
             $smsCodeConn->commit();
             return $code;
         } catch (\Exception  $e) {
