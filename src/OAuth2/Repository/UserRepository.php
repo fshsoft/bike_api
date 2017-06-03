@@ -10,7 +10,8 @@ use Bike\Api\OAuth2\Entity\UserEntity;
 class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
     /**
-     * password是sms code
+     * username 是 mobile
+     * password 是 sms code
      */
     public function getUserEntityByUserCredentials(
         $username,
@@ -21,7 +22,8 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
     {
         $userService = $this->container->get('bike.api.service.user');
         $user = $userService->getUserByMobile($username);
-        if ($user && $userService->verifyPassword($password, $user->getPwd())) {
+        $smsService = $this->container->get('bike.api.service.sms');
+        if ($user && $smsService->verifyLoginCode($username, $password)) {
             $userEntity = new UserEntity();
             $userEntity->setIdentifier($user->getId());
             return $userEntity;
