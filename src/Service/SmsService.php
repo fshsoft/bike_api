@@ -75,11 +75,14 @@ class SmsService extends AbstractService
     public function verifyLoginCode($mobile, $code)
     {
         $smsCodeDao = $this->container->get('bike.api.redis.dao.sms_code');
-        $smsCode = $smsCodeDao->find(array(
+        $key = array(
             'mobile' => $mobile,
             'type' => self::TYPE_LOGIN,
-        ));
+        );
+        $smsCode = $smsCodeDao->find($key);
         if ($smsCode && $smsCode['code'] == $code) {
+            // 验证完就要删除
+            $smsCodeDao->delete($key);
             return true;
         }
         return false;
