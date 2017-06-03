@@ -84,7 +84,8 @@ class UserService extends AbstractService
     {
         if (!$mobile) {
             throw new LogicException('手机号码不能为空');
-        } elseif (!is_numeric($mobile) || strlen($mobile) != 11 ) {
+        //} elseif (!is_numeric($mobile) || strlen($mobile) != 11 || $mobile != intval($mobile)) {
+        } elseif (preg_match('/^1\d{10}$/', $mobile) {
             throw new LogicException('手机号码不合法');
         }
     }
