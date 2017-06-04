@@ -1,5 +1,3 @@
-
-
 # 接口
 
 ## /oauth2/access_token
@@ -68,6 +66,7 @@
 
 # 错误代码
 
- - 1 通用错误
- - 2 Access_Token不合法
+ - 0 成功
+ - 1 错误
+ - 2 access token不合法
 
