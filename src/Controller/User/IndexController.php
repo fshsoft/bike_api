@@ -6,14 +6,28 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
 use Bike\Api\Controller\AbstractController;
+use Bike\Api\Exception\Logic\UserNotFoundException;
+use Bike\Api\Vo\ApiUser;
 
 class IndexController extends AbstractController
 {
-    public function testAction(Request $request, Response $response)
+    public function getCurrentUserAction(Request $request, Response $response)
     {
-        var_dump($request->getAttribute('oauth_access_token_id'));
-        var_dump($request->getAttribute('oauth_client_id'));
-        var_dump($request->getAttribute('oauth_user_id'));
-        var_dump($request->getAttribute('oauth_scopes'));
+        try {
+            $userId = $request->getAttribute('oauth_user_id');
+            $userService = $this->container->get('bike.api.service.user');
+            $user = $userService->getUser($userId);
+            if (!$user) {
+                throw new UserNotFoundException();
+            }
+            $apiUser = new ApiUser();
+            $apiUser->fromUser($user);
+            $data = [
+                'user' => $apiUser->toArray(),
+            ];
+            return $this->jsonSuccess($response, $data);
+        } catch (\Exception $e) {
+            return $this->jsonError($response, $e);
+        }
     }
 }

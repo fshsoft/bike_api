@@ -17,6 +17,8 @@ class ErrorCode
      */
     const LOGIC_ERROR = 1;
     const LOGIC_ERROR_INVALID_ACCESS_TOKEN = 2;
+    const LOGIC_ERROR_INVALID_REFRESH_TOKEN = 3;
+    const LOGIC_ERROR_USER_NOT_FOUND = 4;
 
     private function __construct()
     {

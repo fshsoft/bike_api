@@ -13,8 +13,11 @@ class IndexController extends AbstractController
     {
         try {
             $smsService = $this->container->get('bike.api.service.sms');
-            $code = $smsService->sendLoginCode($request->getQueryParam('mobile'));
-            return $this->jsonSuccess($response, array('code' => $code));
+            $code = $smsService->sendLoginCode($request->getQueryParam('mobi'));
+            if (!$code) {
+                $code = $smsService->sendLoginCode($request->getQueryParam('mobile'));
+            }
+            return $this->jsonSuccess($response);
         } catch (\Exception $e) {
             return $this->jsonError($response, $e, '发送验证码失败');
         }
