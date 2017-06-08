@@ -9,9 +9,9 @@ use Bike\Api\Controller\AbstractController;
 use Bike\Api\Exception\Logic\UserNotFoundException;
 use Bike\Api\Vo\ApiUser;
 
-class IndexController extends AbstractController
+class CurrentController extends AbstractController
 {
-    public function getCurrentUserAction(Request $request, Response $response)
+    public function getUserAction(Request $request, Response $response)
     {
         try {
             $userId = $request->getAttribute('oauth_user_id');
@@ -27,7 +27,7 @@ class IndexController extends AbstractController
             ];
             return $this->jsonSuccess($response, $data);
         } catch (\Exception $e) {
-            return $this->jsonError($response, $e);
+            return $this->jsonError($response, $e, '获取当前用户信息失败');
         }
     }
 }

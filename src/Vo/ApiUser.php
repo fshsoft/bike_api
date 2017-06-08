@@ -6,6 +6,19 @@ use Bike\Api\Db\Primary\User;
 
 class ApiUser
 {
+    protected $fields = array(
+        'id' => null,
+        'mobi' => null,
+        'name' => null,
+        'idno' => null,
+        'certif' => null,
+        'bal' => null,
+        'avt' => null,
+        'llip' => null,
+        'llt' => null,
+        'regt' => null,
+    );
+
     protected $data = array();
 
     public function fromUser(User $user)
@@ -24,8 +37,18 @@ class ApiUser
         );
     }
 
+    public function toUser()
+    {
+
+    }
+
     public function toArray()
     {
         return $this->data;
+    }
+
+    public function fromArray(array $data)
+    {
+
     }
 }

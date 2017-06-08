@@ -19,10 +19,10 @@ abstract class AbstractController
 
     protected function jsonSuccess(Response $response, $data = null)
     {
-        $result = array(
+        $result = [
             'errno' => ErrorCode::SUCCESS,
             'errmsg' => '',
-        );
+        ];
         if ($data !== null) {
             $result['data'] = $data;
         }
@@ -32,19 +32,19 @@ abstract class AbstractController
     protected function jsonError(Response $response, $errno, $defaultErrmsg = null, $data = null)
     {
         if ($errno instanceof LogicExceptionInterface) {
-            $result = array(
+            $result = [
                 'errno' => $errno->getCode(),
                 'errmsg' => $errno->getMessage(),
-            );
+            ];
         } else {
             $errmsg = '出错了';
             if ($defaultErrmsg) {
                 $errmsg = $defaultErrmsg;
             }
-            $result = array(
+            $result = [
                 'errno' => ErrorCode::LOGIC_ERROR,
                 'errmsg' => $errmsg,
-            );
+            ];
         }
 
         if ($data !== null) {

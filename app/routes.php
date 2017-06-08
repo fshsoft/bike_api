@@ -12,7 +12,7 @@ $app->group('/v1', function () {
     $this->get('/sms/send_login_code', 'Bike\Api\Controller\Sms\IndexController:sendLoginCodeAction');
 
     // user
-    $this->get('/users/current', 'Bike\Api\Controller\User\IndexController:getCurrentUserAction');
+    $this->get('/users/current', 'Bike\Api\Controller\User\CurrentController:getUserAction');
 })->add(function ($request, $response, $next) {
     try {
         $server = $this->get('bike.api.service.oauth2')->createResourceServer();

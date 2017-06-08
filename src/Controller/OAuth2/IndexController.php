@@ -11,10 +11,14 @@ class IndexController extends AbstractController
 {
     public function accessTokenAction(Request $request, Response $response)
     {
-        $oauth2Service = $this->container->get('bike.api.service.oauth2');
-        $grantType = $request->getParsedBodyParam('grant_type');
-        $server = $oauth2Service->createAuthorizationServer($grantType);
-        return $server->respondToAccessTokenRequest($request, $response);
+        try {
+            $oauth2Service = $this->container->get('bike.api.service.oauth2');
+            $grantType = $request->getParsedBodyParam('grant_type');
+            $server = $oauth2Service->createAuthorizationServer($grantType);
+            return $server->respondToAccessTokenRequest($request, $response);
+        } catch (\Exception $e) {
+            return $this->jsonError($response, $e, '获取access_token失败');
+        }
     }
 
     public function authorizeAction(Request $request, Response $response)
