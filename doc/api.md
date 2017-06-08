@@ -31,6 +31,8 @@
 
 ## /v1/sms/send_login_code
 
+发送短信登入验证码
+
 * 请求方式：GET
 
 * 请求参数：
@@ -44,6 +46,8 @@
  - errmsg *
 
 ## /v1/users/current
+
+取得当前登入用户信息
 
  * 请求方式: GET
 

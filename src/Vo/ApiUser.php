@@ -17,6 +17,7 @@ class ApiUser
             'idno' => $user->getIdNo(),
             'certif' => $user->getIsCertificated(),
             'bal' => $user->getBalance(),
+            'avt' => $user->getAvatar(),
             'llip' => $user->getLastLoginIp(),
             'llt' => $user->getLastLoginTime(),
             'regt' => $user->getCreateTime(),
