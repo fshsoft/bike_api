@@ -54,7 +54,7 @@ class SmsService extends AbstractService
         );
 
         $smsCodeRedisDao = $this->container->get('bike.api.redis.dao.sms_code');
-        $smsCodeRedisDao->save($key, $value);
+        $smsCodeRedisDao->save($key, $value, $value['expire_time']);
 
         // 发送短信
         $client = new Client($config['endpoint'], $accessKeyId, $accessKeySecret);
