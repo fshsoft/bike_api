@@ -62,6 +62,28 @@
     - user *
     > User
 
+## /v1/bikes
+
+取得可用车辆
+ 
+ * 请求方式: GET
+
+ * 请求参数:
+
+  - lat
+  - lng
+  - range
+  > 单位千米，可精确到小数点后1位
+
+ * 返回结果
+
+  - errno *
+  > 0 1 2
+  - errmsg *
+  - data *
+    - list *
+    > Bike[]
+
 # 对象
 
 ## User
@@ -84,6 +106,9 @@
  > 注册时间戳
 
 ## Bike
+ - id *
+ - lat *
+ - lng *
 
 # 错误代码
 
