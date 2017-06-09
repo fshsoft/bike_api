@@ -9,8 +9,8 @@ use Bike\Api\Controller\AbstractController;
 
 class IndexController extends AbstractController
 {
-    public function unlockAction(Request $request, Response $response)
+    public function indexAction(Request $request, Response $response)
     {
-        
+
     }
 }
