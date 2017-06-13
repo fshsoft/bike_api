@@ -19,6 +19,7 @@ class ErrorCode
     const LOGIC_ERROR_INVALID_ACCESS_TOKEN = 2;
     const LOGIC_ERROR_INVALID_REFRESH_TOKEN = 3;
     const LOGIC_ERROR_USER_NOT_FOUND = 4;
+    const LOGIC_ERROR_BALANCE_NOT_ENOUGH = 5;
 
     private function __construct()
     {

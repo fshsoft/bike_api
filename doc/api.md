@@ -117,3 +117,4 @@
  - 2 access token不合法
  - 3 refresh token 不合法
  - 4 用户未找到
+ - 5 余额不足

@@ -29,7 +29,7 @@ class UserService extends AbstractService
 
     public function getUserByMobile($mobile)
     {
-        $key = 'user.mobile.' . $mobile;
+        $key = $this->getRequestCacheKey('user.mobile', $mobile);
         $user = $this->getRequestCache($key);
         if (!$user) {
             $userDao = $this->getUserDao();
@@ -45,7 +45,7 @@ class UserService extends AbstractService
 
     public function getUser($id)
     {
-        $key = 'user.' . $id;
+        $key = $this->getRequestCacheKey('user.id', $id);
         $user = $this->getRequestCache($key);
         if (!$user) {
             $userDao = $this->getUserDao();
@@ -61,7 +61,6 @@ class UserService extends AbstractService
     {
         $options = [
             'cost' => 10,
-            'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
         ];
 
         return  password_hash($password, PASSWORD_BCRYPT, $options);
@@ -74,9 +73,9 @@ class UserService extends AbstractService
 
     protected function setUserRequestCache(User $user)
     {
-        $mobikeKey = 'user.mobile.' . $user->getMobile();
-        $idKey = 'user.' . $user->getId();
-        $this->setRequestCache($mobikeKey, $user);
+        $mobileKey = $this->getRequestCacheKey('user.mobile', $user->getMobile());
+        $idKey = $this->getRequestCacheKey('user.id', $user->getId());
+        $this->setRequestCache($mobileKey, $user);
         $this->setRequestCache($idKey, $user);
     }
 

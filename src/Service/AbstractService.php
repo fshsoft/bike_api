@@ -68,4 +68,15 @@ abstract class AbstractService
     {
         $this->requestCacheList = array();
     }
+
+    protected function getRequestCacheKey($prefix, $value = null)
+    {
+        if ($value === null) {
+            return $prefix;
+        }
+        if (is_array($value)) {
+            $value = implode('.', $value);
+        }
+        return $prefix . '.' . $value;
+    }
 }

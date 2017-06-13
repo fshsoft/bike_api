@@ -15,7 +15,8 @@ $app->group('/v1', function () {
     $this->get('/users/current', 'Bike\Api\Controller\User\CurrentController:getUserAction');
 
     // bike
-    $this->get('/bikes', 'Bike\Api\Controller\Bike\IndexController:indexAction');
+    $this->get('/bikes', 'Bike\Api\Controller\Bike\IndexController:getAction');
+    $this->post('/bikes/{id}/use', 'Bike\Api\Controller\Bike\UseController:postAction');
 })->add(function ($request, $response, $next) {
     try {
         $server = $this->get('bike.api.service.oauth2')->createResourceServer();

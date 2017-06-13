@@ -145,7 +145,7 @@ class OAuth2Service extends AbstractService
 
     public function getClient($id)
     {
-        $key = 'client.' . $id;
+        $key = $this->getRequestCacheKey('client.id', $id);
         $client = $this->getRequestCache($key);
         if (!$client) {
             $clientDao = $this->getClientDao();
@@ -159,7 +159,7 @@ class OAuth2Service extends AbstractService
 
     public function getScope($id)
     {
-        $key = 'scope.' . $id;
+        $key = $this->getRequestCacheKey('scope.id', $id);
         $scope = $this->getRequestCache($key);
         if (!$scope) {
             $scopeDao = $this->getScopeDao();

@@ -12,13 +12,16 @@ use Bike\Api\Vo\ApiBike;
 class IndexController extends AbstractController
 {
     // 假数据
-    public function indexAction(Request $request, Response $response)
+    public function getAction(Request $request, Response $response)
     {
         $lat = $request->getQueryParam('lat');
         $lng = $request->getQueryParam('lng');
         $range = number_format($request->getQueryParam('range'), 1);// 小数点一位
         $list = array();
+        $bikeList = array();
         $bikeService = $this->container->get('bike.api.service.bike');
+        $bikeDao = $this->container->get('bike.api.dao.primary.bike');
+        $time = time();
         for ($i = 0; $i < 20; $i++) {
             $bike = new Bike();
 
@@ -29,11 +32,14 @@ class IndexController extends AbstractController
             }
             $bike
                 ->setLat($lat + $diff)
-                ->setLng($lng + $diff);
+                ->setLng($lng + $diff)
+                ->setCreateTime($time);
             $apiBike = new ApiBike();
             $apiBike->fromBike($bike);
             $list[] = $apiBike->toArray();
+            $bikeList[] = $bike;
         }
+        $bikeDao->batchCreate($bikeList);
         $data['list'] = $list;
         return $this->jsonSuccess($response, $data);
     }
