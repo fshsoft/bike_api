@@ -20,7 +20,7 @@ class UseController extends AbstractController
             $bikeService->useBike($userId, $lat, $lng, $bikeId);
             return $this->jsonSuccess($response);
         } catch (\Exception $e) {
-            return $this->jsonError($response, $e);
+            return $this->jsonError($response, $e, '车辆暂时无法使用');
         }
     }
 }
