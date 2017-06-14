@@ -10,20 +10,6 @@ use Bike\Api\Controller\AbstractController;
 class CheckoutController extends AbstractController
 {
     //@todo 假数据
-    public function httpGet(Request $request, Response $response, $id)
-    {
-        try {
-            $data = [
-                'dura' => 30,
-                'amou' => 1.56,
-            ];
-            return $this->jsonSuccess($response, $data);
-        } catch (\Exception $e) {
-            return $this->jsonError($response, $e, '暂时无法获取结账信息');
-        }
-    }
-
-    //@todo 假数据
     public function httpPut(Request $request, Response $response, $id)
     {
         try {
