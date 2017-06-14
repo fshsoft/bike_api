@@ -103,6 +103,39 @@
   > 0 1 2 4 5
   - errmsg *
 
+## /v1/bikes/{id}/checkout
+
+获取结账信息
+
+ * 请求方式: GET
+
+ * 请求参数:
+
+ * 返回结果
+
+  - errno *
+  > 0 1 2 4
+  - errmsg *
+  - data
+    - dura 
+    > 骑行时间, 单位秒
+    - amou
+    > 金额
+
+## /v1/bikes/{id}/checkout
+
+ 结账
+
+ * 请求方式: PUT
+
+ * 请求参数:
+
+ * 返回结果
+
+  - errno *
+  > 0 1 2 4 5
+  - errmsg *
+
 # 对象
 
 ## User
