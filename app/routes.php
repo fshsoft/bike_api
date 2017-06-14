@@ -12,11 +12,12 @@ $app->group('/v1', function () {
     $this->get('/sms/send_login_code', 'Bike\Api\Controller\Sms\IndexController:sendLoginCodeAction');
 
     // user
-    $this->get('/users/current', 'Bike\Api\Controller\User\CurrentController:getUserAction');
+    $this->any('/users/current', 'Bike\Api\Controller\User\CurrentController');
 
     // bike
-    $this->get('/bikes', 'Bike\Api\Controller\Bike\IndexController:getAction');
-    $this->post('/bikes/{id}/use', 'Bike\Api\Controller\Bike\UseController:postAction');
+    $this->any('/bikes', 'Bike\Api\Controller\Bike\IndexController');
+    $this->any('/bikes/{id}/use', 'Bike\Api\Controller\Bike\UseController');
+    $this->any('/bikes/{id}/checkout', 'Bike\Api\Controller\Bike\CheckoutController');
 })->add(function ($request, $response, $next) {
     try {
         $server = $this->get('bike.api.service.oauth2')->createResourceServer();

@@ -11,7 +11,7 @@ use Bike\Api\Vo\ApiUser;
 
 class CurrentController extends AbstractController
 {
-    public function getUserAction(Request $request, Response $response)
+    public function httpGet(Request $request, Response $response)
     {
         try {
             $userId = $request->getAttribute('oauth_user_id');

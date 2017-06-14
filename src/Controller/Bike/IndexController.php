@@ -12,7 +12,7 @@ use Bike\Api\Vo\ApiBike;
 class IndexController extends AbstractController
 {
     // 假数据
-    public function getAction(Request $request, Response $response)
+    public function httpGet(Request $request, Response $response)
     {
         $lat = $request->getQueryParam('lat');
         $lng = $request->getQueryParam('lng');

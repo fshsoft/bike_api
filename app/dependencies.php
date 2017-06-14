@@ -18,6 +18,11 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
+// handler
+$container['foundHandler'] = function() {
+    return new \Slim\Handlers\Strategies\RequestResponseArgs();
+};
+
 // doctrine
 $container['doctrine.dbal.conn.default'] = function ($c) {
     $settings = $c->get('settings')['doctrine']['dbal']['conn']['default'];

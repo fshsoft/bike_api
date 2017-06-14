@@ -9,15 +9,14 @@ use Bike\Api\Controller\AbstractController;
 
 class UseController extends AbstractController
 {
-    public function postAction(Request $request, Response $response)
+    public function httpPost(Request $request, Response $response, $id)
     {
         try {
             $userId = $request->getAttribute('oauth_user_id');
-            $bikeId = $request->getAttribute('id');
             $lat = $request->getParsedBodyParam('lat');
             $lng = $request->getParsedBodyParam('lng');
             $bikeService = $this->container->get('bike.api.service.bike');
-            $bikeService->useBike($userId, $lat, $lng, $bikeId);
+            $bikeService->useBike($userId, $lat, $lng, $id);
             return $this->jsonSuccess($response);
         } catch (\Exception $e) {
             return $this->jsonError($response, $e, '车辆暂时无法使用');
