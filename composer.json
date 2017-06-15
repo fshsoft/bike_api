@@ -17,7 +17,10 @@
         "psr-4": {
             "Bike\\Api\\": "src/"
         },
-        "files": ["lib/aliyun/mns-autoloader.php"]
+        "files": [
+            "lib/aliyun/mns-autoloader.php",
+            "lib/jpush/jpush-api-php-client-3.5.12/autoload.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

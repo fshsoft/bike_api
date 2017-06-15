@@ -15,7 +15,7 @@ class SmsCodeDao extends AbstractHashDao
         'create_time' => null,
     ];
 
-    protected function getKey($sharding = null)
+    public function getKey($sharding = null)
     {
         $sharding = ArgUtil::getArgs((array) $sharding, array(
             'mobile',

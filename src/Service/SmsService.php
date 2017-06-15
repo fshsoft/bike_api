@@ -39,21 +39,20 @@ class SmsService extends AbstractService
 
         $time = time();
         $code = $this->genCode();
-
-        $key = array(
-            'mobile' => $mobile,
-            'type' => self::TYPE_LOGIN,
-        );
-        $value = array(
+        $value = [
             'mobile' => $mobile,
             'type' => self::TYPE_LOGIN,
             'code' => $code,
             'user_id' => $userId,
             'expire_time' => $time + $config['ttl'],
             'create_time' => $time,
-        );
+        ];
 
         $smsCodeRedisDao = $this->container->get('bike.api.redis.dao.sms_code');
+        $key = $smsCodeRedisDao->getKey([
+            'mobile' => $mobile,
+            'type' => self::TYPE_LOGIN,
+        ]);
         $smsCodeRedisDao->save($key, $value, $value['expire_time']);
 
         // 发送短信
@@ -74,15 +73,15 @@ class SmsService extends AbstractService
 
     public function verifyLoginCode($mobile, $code)
     {
-        $smsCodeDao = $this->container->get('bike.api.redis.dao.sms_code');
-        $key = array(
+        $smsCodeRedisDao = $this->container->get('bike.api.redis.dao.sms_code');
+        $key = $smsCodeRedisDao->getKey([
             'mobile' => $mobile,
             'type' => self::TYPE_LOGIN,
-        );
-        $smsCode = $smsCodeDao->find($key);
+        ]);
+        $smsCode = $smsCodeRedisDao->find($key);
         if ($smsCode && $smsCode['code'] == $code) {
             // 验证完就要删除
-            $smsCodeDao->delete($key);
+            $smsCodeRedisDao->delete($key);
             return true;
         }
         return false;

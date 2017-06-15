@@ -60,6 +60,16 @@ $container['bike.api.dao.primary.bike_id_generator'] = function ($c) {
     );
 };
 
+$container['bike.api.dao.primary.option'] = function ($c) {
+    $settings = $c->get('settings')['dao']['primary'];
+    return new Bike\Api\Db\Primary\OptionDao(
+        $c->get($settings['conn_id']),
+        $settings['db_name'],
+        $settings['prefix'],
+        'Bike\Api\Db\Primary\Option'
+    );
+};
+
 // dao oauth2
 $container['bike.api.dao.oauth2.client'] = function ($c) {
     $settings = $c->get('settings')['dao']['oauth2'];
@@ -96,6 +106,18 @@ $container['bike.api.service.sms'] = function ($c) {
 
 $container['bike.api.service.bike'] = function ($c) {
     return new Bike\Api\Service\BikeService($c);
+};
+
+$container['bike.api.service.push'] = function ($c) {
+    return new Bike\Api\Service\PushService($c);
+};
+
+$container['bike.api.service.api'] = function ($c) {
+    return new Bike\Api\Service\ApiService($c);
+};
+
+$container['bike.api.service.option'] = function ($c) {
+    return new Bike\Api\Service\OptionService($c);
 };
 
 // redis conn

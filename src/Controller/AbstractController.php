@@ -8,14 +8,18 @@ use Interop\Container\ContainerInterface;
 
 use Bike\Api\Error\ErrorCode;
 use Bike\Api\Exception\Logic\LogicExceptionInterface;
+use Bile\Api\Service\ApiService;
 
 abstract class AbstractController
 {
     protected $container;
 
+    protected $apiService;
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->apiService = $this->container->get('bike.api.service.api');
     }
 
     public function __invoke(Request $request)
@@ -26,38 +30,13 @@ abstract class AbstractController
 
     protected function jsonSuccess(Response $response, $data = null)
     {
-        $result = [
-            'errno' => ErrorCode::SUCCESS,
-            'errmsg' => '',
-        ];
-        if ($data !== null) {
-            $result['data'] = $data;
-        }
+        $result = $this->apiService->handleSuccess($data);
         return $response->withJson($result);
     }
 
     protected function jsonError(Response $response, $errno, $defaultErrmsg = null, $data = null)
     {
-        if ($errno instanceof LogicExceptionInterface) {
-            $result = [
-                'errno' => $errno->getCode(),
-                'errmsg' => $errno->getMessage(),
-            ];
-        } else {
-            $errmsg = '出错了';
-            if ($defaultErrmsg) {
-                $errmsg = $defaultErrmsg;
-            }
-            $result = [
-                'errno' => ErrorCode::LOGIC_ERROR,
-                'errmsg' => $errmsg,
-            ];
-        }
-
-        if ($data !== null) {
-            $result['data'] = $data;
-        }
-
+        $result = $this->handleError($errno, $defaultErrmsg, $data);
         return $response->withJson($result);
     }
 }

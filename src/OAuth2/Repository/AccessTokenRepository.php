@@ -35,20 +35,23 @@ class AccessTokenRepository extends AbstractRepository implements AccessTokenRep
             $scopes[] = $v->getIdentifier();
         }
         $value['scopes'] = implode(' ', $scopes);
-        $accessTokenDao = $this->container->get('bike.api.redis.dao.access_token');
-        $accessTokenDao->save($tokenId, $value, $expireTime);
+        $accessTokenRedisDao = $this->container->get('bike.api.redis.dao.access_token');
+        $key = $accessTokenRedisDao->getKey($tokenId);
+        $accessTokenRedisDao->save($key, $value, $expireTime);
     }
 
     public function revokeAccessToken($tokenId)
     {
-        $accessTokenDao = $this->container->get('bike.api.redis.dao.access_token');
-        return $accessTokenDao->delete($tokenId);
+        $accessTokenRedisDao = $this->container->get('bike.api.redis.dao.access_token');
+        $key = $accessTokenRedisDao->getKey($tokenId);
+        return $accessTokenRedisDao->delete($key);
     }
 
     public function isAccessTokenRevoked($tokenId)
     {
-        $accessTokenDao = $this->container->get('bike.api.redis.dao.access_token');
-        if ($accessTokenDao->has($tokenId)) {
+        $accessTokenRedisDao = $this->container->get('bike.api.redis.dao.access_token');
+        $key = $accessTokenRedisDao->getKey($tokenId);
+        if ($accessTokenRedisDao->has($key)) {
             return false;
         }
         return true;

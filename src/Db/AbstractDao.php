@@ -344,6 +344,40 @@ abstract class AbstractDao implements DaoInterface
     public function findList($cols, array $where, $offset, $limit, 
         array $order = array(), array $group = array())
     {
+        $result = $this->findRawList($cols, $where, $offset, $limit, $order, $group);
+        if ($result) {
+            return $this->entityResultSet($result);
+        }
+    }
+
+    public function findMap($cols, array $where, $offset, $limit, 
+        array $order = array(), array $group = array())
+    {
+        $result = $this->findRawList($cols, $where, $offset, $limit, $order, $group);
+        if ($result) {
+            if (!$mapKey) {
+                $mapKey = $this->getPrimaryKey();
+            }
+            $map = array();
+            foreach ($result as $row) {
+                if (!isset($row[$mapKey])) {
+                    throw new DebugException(sprintf('字段"%s"不存在', $mapKey));
+                }
+            }
+            return $this->entityResultSet($result);
+        }
+    }
+
+    public function __call($method, $args)
+    {
+        if (($pos = strpos($method, 'findMap')) !== false) {
+            
+        }
+    }
+
+    protected function findRawList($cols, array $where, $offset, $limit, 
+        array $order = array(), array $group = array())
+    {
         $qb = $this->conn->createQueryBuilder();
         $this->applyWhere($qb, $where, self::DB_OP_SELECT);
         // $offset和$limit同为0时，才表示取全部记录，不分页
@@ -358,27 +392,11 @@ abstract class AbstractDao implements DaoInterface
         if ($group) {
             $this->applyGroup($qb, $group);
         }
-        $result = $qb
+        return $qb
             ->select($this->parseCols($cols))
             ->from($this->parseTable($where, self::DB_OP_SELECT))
             ->execute()
             ->fetchAll();
-        if ($result) {
-            return $this->entityResultSet($result);
-        }
-    }
-
-    public function findMap($cols, array $where, $offset, $limit, 
-        array $order = array(), array $group = array())
-    {
-        $list = $this->findList($cols, $where, $offset, $limit, $order, $group);
-        if ($list) {
-            $map = array();
-            foreach ($list as $v) {
-                $map[$v->getPrimaryValue()] = $v;
-            }
-            return $map;
-        }
     }
 
     public function findNum(array $where, $col = '*', array $group = array())
@@ -395,7 +413,7 @@ abstract class AbstractDao implements DaoInterface
             ->fetch();
         return $result['num'];
     }
- 
+
     /**
      * 没做字段的反引号操作，请确保字段中没有mysql保留字
      *

@@ -27,20 +27,23 @@ class RefreshTokenRepository extends AbstractRepository implements RefreshTokenR
             'expire_time' => $expireTime,
             'create_time' => $createTime,
         );
-        $refreshTokenDao = $this->container->get('bike.api.redis.dao.refresh_token');
-        $refreshTokenDao->save($tokenId, $value, $expireTime);
+        $refreshTokenRedisDao = $this->container->get('bike.api.redis.dao.refresh_token');
+        $key = $refreshTokenRedisDao->getKey($tokenId);
+        $refreshTokenRedisDao->save($key, $value, $expireTime);
     }
 
     public function revokeRefreshToken($tokenId)
     {
-        $refreshTokenDao = $this->container->get('bike.api.redis.dao.refresh_token');
-        return $refreshTokenDao->delete($tokenId);
+        $refreshTokenRedisDao = $this->container->get('bike.api.redis.dao.refresh_token');
+        $key = $refreshTokenRedisDao->getKey($tokenId);
+        return $refreshTokenRedisDao->delete($key);
     }
 
     public function isRefreshTokenRevoked($tokenId)
     {
-        $refreshTokenDao = $this->container->get('bike.api.redis.dao.refresh_token');
-        if ($refreshTokenDao->has($tokenId)) {
+        $refreshTokenRedisDao = $this->container->get('bike.api.redis.dao.refresh_token');
+        $key = $refreshTokenRedisDao->getKey($tokenId);
+        if ($refreshTokenRedisDao->has($key)) {
             return false;
         }
         return true;

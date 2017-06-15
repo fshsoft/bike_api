@@ -13,7 +13,7 @@ class AccessTokenDao extends AbstractHashDao
         'create_time' => null,
     ];
 
-    protected function getKey($sharding = null)
+    public function getKey($sharding = null)
     {
         return 'access_token_' . $sharding;
     }

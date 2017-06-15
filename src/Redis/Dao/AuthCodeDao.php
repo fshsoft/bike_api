@@ -14,7 +14,7 @@ class AuthCodeDao extends AbstractHashDao
         'create_time' => null,
     ];
 
-    protected function getKey($sharding = null)
+    public function getKey($sharding = null)
     {
         return 'auth_code_' . $sharding;
     }
