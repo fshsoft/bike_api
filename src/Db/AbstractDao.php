@@ -7,6 +7,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 
 use Bike\Api\Exception\Debug\DebugException;
 use Bike\Api\Util\ArgUtil;
+use Bike\Api\Util\NamingUtil;
 
 abstract class AbstractDao implements DaoInterface
 {
@@ -274,7 +275,7 @@ abstract class AbstractDao implements DaoInterface
         return $this->conn->executeUpdate($sql, $params);
     }
 
-    public function update($where, $data)
+    public function update($where, $data, array $exprs = array())
     {
         // 过滤data中不需要的字段
         if (is_array($data)) {
@@ -295,6 +296,9 @@ abstract class AbstractDao implements DaoInterface
         }
         foreach ($data as $k => $v) {
             $qb->set($k, $qb->createNamedParameter($v));
+        }
+        foreach ($exprs as $col => $expr) {
+            $qb->set($col, $expr);
         }
         
         return $qb->update($this->parseTable($where, self::DB_OP_UPDATE))->execute();
@@ -350,28 +354,26 @@ abstract class AbstractDao implements DaoInterface
         }
     }
 
-    public function findMap($cols, array $where, $offset, $limit, 
-        array $order = array(), array $group = array())
-    {
-        $result = $this->findRawList($cols, $where, $offset, $limit, $order, $group);
-        if ($result) {
-            if (!$mapKey) {
-                $mapKey = $this->getPrimaryKey();
-            }
-            $map = array();
-            foreach ($result as $row) {
-                if (!isset($row[$mapKey])) {
-                    throw new DebugException(sprintf('字段"%s"不存在', $mapKey));
-                }
-            }
-            return $this->entityResultSet($result);
-        }
-    }
-
+    /**
+     * findMap[AsBlaBlaBla]
+     */
     public function __call($method, $args)
     {
-        if (($pos = strpos($method, 'findMap')) !== false) {
-            
+        $mapCol = null;
+        if ($method == 'findMap') {
+            $mapCol = $this->getPrimaryKey();
+        } elseif (($pos = strpos($method, 'findMapAs')) !== false) {
+            $mapCol = NamingUtil::studlyCaseToUnderscore(substr($method, $post + 1));
+        }
+        if ($mapCol !== null) {
+            $result = call_user_func_array([$this, 'findRawList'], $args);
+            if ($result) {
+                $map = array();
+                foreach ($result as $row) {
+                    $map[$row[$mapCol]] = $row;
+                }
+                return $this->entityResultSet($map);
+            }
         }
     }
 

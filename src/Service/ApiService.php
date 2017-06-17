@@ -44,7 +44,7 @@ class ApiService extends AbstractService
         return $result;
     }
 
-    public function isVersionValid($clientId, $version)
+    public function isVersionExpired($clientId, $version)
     {
         $optionDao = $this->container->get('bike.api.dao.primary.option');
         $name = $clientId . '_min_api_ver';

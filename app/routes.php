@@ -30,7 +30,7 @@ $app->group('/v1', function () {
     try {
         $clientId = $request->getAttribute('oauth_client_id');
         $version = $request->getHeader('bike_api_version');
-        if (!$version || !$apiService->isVersionValid($clientId, $version[0])) {
+        if (!$version || !$apiService->isVersionExpired($clientId, $version[0])) {
             throw new \Bike\Api\Exception\Logic\UpgradeRequiredException();
         }
     } catch (\Exception $e) {
