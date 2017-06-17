@@ -37,22 +37,22 @@ abstract class AbstractDao implements DaoInterface
     protected $entityClass;
 
     final public function __construct(Connection $conn, $db, $prefix, $entityClass, 
-        $entityResultSetClass = 'Bike\\Api\\Db\\EntityResultSet')
+        $entityResultSetClass = 'Bike\Api\Db\EntityResultSet')
     {
         $this->conn = $conn;
         $this->db = $db;
         $this->prefix = $prefix;
 
-        if (!is_subclass_of($entityClass, 'Bike\\Api\\Db\\EntityInterface')) {
-            throw new DebugException(sprintf('%s必须实现Bike\\Api\\Db\\EntityInterface', $entityClass));
+        if (!is_subclass_of($entityClass, 'Bike\Api\Db\EntityInterface')) {
+            throw new DebugException(sprintf('%s必须实现Bike\Api\Db\EntityInterface', $entityClass));
         }
         if (!class_exists($entityClass)) {
             throw new DebugException(sprintf('%s不存在', $entityClass));
         }
         $this->entityClass = $entityClass;
 
-        if (!is_subclass_of($entityResultSetClass, 'Bike\\Api\\Db\\EntityResultSetInterface')) {
-            throw new DebugException(sprintf('%s必须实现Bike\\Api\\Db\\EntityResultSetInterface', $entityResultSetClass));
+        if (!is_subclass_of($entityResultSetClass, 'Bike\Api\Db\EntityResultSetInterface')) {
+            throw new DebugException(sprintf('%s必须实现Bike\Api\Db\EntityResultSetInterface', $entityResultSetClass));
         }
         if (!class_exists($entityResultSetClass)) {
             throw new DebugException(sprintf('%s不存在', $entityResultSetClass));
@@ -297,8 +297,15 @@ abstract class AbstractDao implements DaoInterface
         foreach ($data as $k => $v) {
             $qb->set($k, $qb->createNamedParameter($v));
         }
-        foreach ($exprs as $col => $expr) {
-            $qb->set($col, $expr);
+        $exprs = ArgUtil::getArgs($exprs, [
+            'incres',
+        ]);
+        if (is_array($exprs['incres']) && $exprs['incres']) {
+            foreach ($exprs['incres'] as $col => $incre) {
+                if (is_numeric($incre)) {
+                    $qb->set($col, $col . '+ (' . $incre . ')');
+                }
+            }
         }
         
         return $qb->update($this->parseTable($where, self::DB_OP_UPDATE))->execute();
@@ -363,7 +370,7 @@ abstract class AbstractDao implements DaoInterface
         if ($method == 'findMap') {
             $mapCol = $this->getPrimaryKey();
         } elseif (($pos = strpos($method, 'findMapAs')) !== false) {
-            $mapCol = NamingUtil::studlyCaseToUnderscore(substr($method, $post + 1));
+            $mapCol = NamingUtil::studlyCaseToUnderscore(substr($method, $pos + 9));
         }
         if ($mapCol !== null) {
             $result = call_user_func_array([$this, 'findRawList'], $args);
