@@ -79,4 +79,28 @@ abstract class AbstractService
         }
         return $prefix . '.' . $value;
     }
+
+    protected function parsePages($totalNum, &$page, &$pageNum)
+    {
+        $page = intval($page);
+        if ($page < 1) {
+            $page = 1;
+        }
+        $pageNum = intval($pageNum);
+        if ($totalNum) {
+            $totalPage = ceil($totalNum / $pageNum);
+            if ($page > $totalPage) {
+                $page = $totalPage;
+            }
+        } else {
+            $page = 1;
+            $totalPage = 1;
+        }
+        return [
+            'page' => $page,
+            'pageNum' => $pageNum,
+            'totalPage' => $totalPage,
+            'totalNum' => $totalNum,
+        ];
+    }
 }
