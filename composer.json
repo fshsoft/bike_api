@@ -19,6 +19,7 @@
         },
         "files": [
             "lib/aliyun/mns-autoloader.php",
+            "lib/alipay/AopSdk.php",
             "lib/jpush/jpush-api-php-client-3.5.12/autoload.php"
         ]
     },

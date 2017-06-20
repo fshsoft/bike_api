@@ -120,6 +120,10 @@ $container['bike.api.service.option'] = function ($c) {
     return new Bike\Api\Service\OptionService($c);
 };
 
+$container['bike.api.service.alipay'] = function ($c) {
+    return new Bike\Api\Service\AlipayService($c);
+};
+
 // redis conn
 $container['bike.api.redis.conn.default'] = function ($c) {
     $settings = $c->get('settings')['redis']['conn']['default'];
